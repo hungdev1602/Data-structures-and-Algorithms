@@ -16,23 +16,9 @@
 // 3
 // Giải thích đáp án: cặp số có độ chênh lệch nhỏ nhất là: 96 và 93, độ chênh lệch là 3
 
-// complexity: O(n^2)
+// complexity: O(nlogn) => vì sort
 #include <bits/stdc++.h>
 using namespace std;
-
-int pairOfNumber(int a[], int n){
-  int ans = 1e9;
-  // B1
-  for(int i = 0; i < n; i++){
-    for(int j = i + 1; j < n; j++){
-      // B2
-      if(abs(a[i] - a[j]) < ans){
-        ans = abs(a[i] - a[j]);
-      }
-    }
-  }
-  return ans;
-}
 
 int main(){
   int n; cin >> n;
@@ -40,13 +26,32 @@ int main(){
   for(int &x : a){
     cin >> x;
   }
-  cout << pairOfNumber(a, n);
-
+  sort(a, a + n);
+  
+  int ans = 1e9;
+  // for(int i = 0; i < n; i++){
+  //   if(i == 0){
+  //     ans = min(ans, abs(a[i] - a[i+1]));
+  //   }
+  //   else if(i == n - 1){
+  //     ans = min(ans, abs(a[i] - a[i-1]));
+  //   }
+  //   else{
+  //     int diff1 = abs(a[i] - a[i+1]);
+  //     int diff2 = abs(a[i] - a[i-1]);
+  //     ans = min(diff1, diff2);
+  //   }
+  // }
+  for(int i = 1; i < n; i++){ //NGẮN GỌN VÀ TỐI ƯU HƠN
+    ans = min(ans, a[i] - a[i-1]);
+  }
+  cout << ans;
   return 0;
 }
 
-/* Cách làm:
-B0: gán đáp án lúc đầu bằng 1^9 vì sẽ check số nhỏ hơn, logic nên vậy
-B1: duyệt tất cả các cặp trong mảng
-B2: nếu trị tuyệt đối abs(a[i] - a[j]) nhỏ hơn đáp án hiện tại thì sẽ gán đáp án là abs(a[i] - a[j])
+/*
+cách làm:
+bước 1: sort mảng
+bước 2: mỗi khi duyệt phần tử nào, chỉ cần kiểm tra 2 thg bên cạnh nó => xét a[i], check a[i-1] và a[i+1]
+bước 3: cập nhật min
 */
